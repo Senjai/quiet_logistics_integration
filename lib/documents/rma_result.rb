@@ -1,7 +1,8 @@
 module Documents
   class RMAResult
 
-    def initialize(xml)
+    def initialize(xml, message_id)
+      @message_id = message_id
       @doc  = Nokogiri::XML(xml).remove_namespaces!
       @number = @doc.xpath("//@RMANumber").first.text
       @receipt_date = @doc.xpath("//@ReceiptDate").first.text
@@ -21,6 +22,7 @@ module Documents
     def rma
       {
         id: "#{@number}-#{Time.now.strftime('%Y%m%d%H%M%S%L')}",
+        message_id: @message_id,
         rma_number: @number,
         business_unit: @business_unit,
         receipt_date: @receipt_date,

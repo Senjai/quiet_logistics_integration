@@ -40,7 +40,7 @@ module Documents
     end
 
     describe '#to_h' do
-      let(:result) { PurchaseOrderReceipt.new(xml) }
+      let(:result) { PurchaseOrderReceipt.new(xml, 'some-message-id') }
 
       describe 'purchase_orders' do
         let(:purchase_orders) { result.to_h[:purchase_orders] }
@@ -53,6 +53,7 @@ module Documents
 
           expect(purchase_order).to eq(
             id: "12735_AI-48069",
+            message_id: 'some-message-id',
             status: 'received',
             business_unit: 'BONOBOS',
             line_items: [

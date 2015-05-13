@@ -1,7 +1,8 @@
 module Documents
   class PurchaseOrderReceipt
 
-    def initialize(xml)
+    def initialize(xml, message_id)
+      @message_id = message_id
       @doc = Nokogiri::XML(xml).remove_namespaces!
       @business_unit = @doc.xpath("//@BusinessUnit").first.text
       @po_number = @doc.xpath("//@PONumber").first.value
@@ -18,6 +19,7 @@ module Documents
     def purchase_order
       {
         id: @po_number,
+        message_id: @message_id,
         status: 'received',
         business_unit: @business_unit,
         line_items: assemble_items,

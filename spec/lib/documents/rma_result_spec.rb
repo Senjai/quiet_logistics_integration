@@ -40,7 +40,7 @@ module Documents
     end
 
     describe '#to_h' do
-      let(:result) { RMAResult.new(xml) }
+      let(:result) { RMAResult.new(xml, 'some-message-id') }
 
       describe 'rmas' do
         let(:rmas) { result.to_h[:rmas] }
@@ -55,6 +55,8 @@ module Documents
           rma = rmas.first
 
           expect(rma[:id]).to eq "H11111111111-20140722132344642"
+
+          expect(rma[:message_id]).to eq 'some-message-id'
 
           expect(rma[:rma_number]).to eq 'H11111111111'
           expect(rma[:business_unit]).to eq 'BONOBOS'

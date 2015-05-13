@@ -53,7 +53,7 @@ module Documents
     end
 
     describe '#to_h' do
-      let(:result) { ShipmentOrderResult.new(xml) }
+      let(:result) { ShipmentOrderResult.new(xml, 'some-message-id') }
 
       describe 'quiet_logistics_cartons' do
         let(:cartons) { result.to_h[:quiet_logistics_cartons] }
@@ -68,6 +68,7 @@ module Documents
           expect(carton1).to eq(
             {
               id: "S11111111",
+              message_id: 'some-message-id',
               shipment_id: 'H13088556647',
               tracking: "1Z1111111111111111",
               warehouse: 'DVN',
@@ -89,6 +90,7 @@ module Documents
           expect(carton2).to eq(
             {
               id: "S22222222",
+              message_id: 'some-message-id',
               shipment_id: 'H13088556647',
               tracking: "1Z2222222222222222",
               warehouse: 'DVN',
@@ -118,6 +120,7 @@ module Documents
             expect(partial_short).to eq(
               {
                 id: 'H13088556647',
+                message_id: 'some-message-id',
                 shipment_id: 'H13088556647',
                 warehouse: 'DVN',
                 business_unit: 'BONOBOS',
@@ -210,7 +213,7 @@ module Documents
 
           it 'alerts us' do
             expect(Rollbar).to receive(:error).with(/QL quantity greater than 1/)
-            ShipmentOrderResult.new(xml).to_h
+            ShipmentOrderResult.new(xml, 'some-message-id').to_h
           end
         end
       end
