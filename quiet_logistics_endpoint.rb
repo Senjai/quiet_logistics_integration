@@ -2,15 +2,9 @@ Dir['./lib/**/*.rb'].each { |f| require f }
 
 class QuietLogisticsEndpoint < EndpointBase::Sinatra::Base
 
-  @@logged_paths = Set.new
-
   set :logging, true
 
   before do
-    if !@@logged_paths.include?(request.path)
-      @@logged_paths << request.path
-      Rollbar.info("#{request.path} payload", payload: @payload)
-    end
     AWS.config(access_key_id: @config['amazon_access_key'],
                secret_access_key: @config['amazon_secret_key']) if request.request_method == 'POST'
   end
