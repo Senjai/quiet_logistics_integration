@@ -24,6 +24,8 @@ class Processor
     case type
     when 'ShipmentOrderResult'
       Documents::ShipmentOrderResult.new(data, message_id)
+    when 'ShipmentOrderCancelReady'
+      Documents::ShipmentOrderCancelReady.new(data, message_id)
     when 'PurchaseOrderReceipt'
       # Temporarily track whether we are actually processing these
       Rollbar.info("Proceesing #{type.inspect}")
