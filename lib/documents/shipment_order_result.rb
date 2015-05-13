@@ -26,7 +26,8 @@ module Documents
   class ShipmentOrderResult
     NAMESPACE = 'http://schemas.quiettechnology.com/V2/SOResultDocument.xsd'
 
-    def initialize(xml)
+    def initialize(xml, message_id)
+      @message_id = message_id
       @doc = Nokogiri::XML(xml)
       @shipment_number = @doc.xpath("//@OrderNumber").first.text
       @date_shipped = @doc.xpath("//@DateShipped").first.text
@@ -49,6 +50,7 @@ module Documents
       cartons.map do |carton|
         {
           :id => carton['CartonId'],
+          :message_id => @message_id,
           :shipment_id => @shipment_number,
           :tracking => carton['TrackingId'],
           :warehouse => @warehouse,
@@ -83,6 +85,7 @@ module Documents
         [
           {
             id: @shipment_number,
+            message_id: @message_id,
             shipment_id: @shipment_number,
             warehouse: @warehouse,
             business_unit: @business_unit,
