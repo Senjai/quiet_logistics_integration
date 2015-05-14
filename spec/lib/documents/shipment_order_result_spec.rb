@@ -212,7 +212,11 @@ module Documents
           end
 
           it 'alerts us' do
-            expect(Rollbar).to receive(:error).with(/QL quantity greater than 1/)
+            expect(Rollbar).to receive(:error).with(
+              /QL quantity greater than 1/,
+              shipment: 'H13088556647',
+              carton: 'S11111111',
+            )
             ShipmentOrderResult.new(xml, 'some-message-id').to_h
           end
         end
