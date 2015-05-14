@@ -67,10 +67,9 @@ module Documents
         quantity = Integer(content['Quantity'])
         if quantity > 1
           # See the code comment on #partial_short_items
-          Rollbar.error(<<-MSG)
-            QL quantity greater than 1 detected. Short ship detection may not
-            work correctly.
-          MSG
+          message = "QL quantity greater than 1 detected. Short ship " +
+            "detection may not work correctly."
+          Rollbar.error(message, shipment: @shipment_number, carton: carton['CartonId'])
         end
         {
           :ql_item_number => content['ItemNumber'],
