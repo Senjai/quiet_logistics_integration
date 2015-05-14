@@ -43,7 +43,7 @@ module Documents
                   reason: 'INVENTORY',
                   warehouse: 'DVN',
                   business_unit: 'BONOBOS',
-                  shorted_at: '2015-05-13T02:49:53.763125Z',
+                  canceled_at: '2015-05-13T02:49:53.763125Z',
                   items: [
                     {
                       ql_item_number: '2222222',
@@ -101,7 +101,7 @@ module Documents
                   reason: 'CUSTOMER',
                   warehouse: 'DVN',
                   business_unit: 'BONOBOS',
-                  shorted_at: '2015-05-13T02:49:53.763125Z',
+                  canceled_at: '2015-05-13T02:49:53.763125Z',
                   items: [
                     {
                       ql_item_number: '2222222',

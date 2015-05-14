@@ -1,8 +1,8 @@
 # ShipmentOrderCancelReady is the message we get when an entire order has been
-# completely cancelled.
+# completely canceled.
 # Some reasons for cancellation, as per QL, include:
 #   - ADDRESS - Address Verification Failed (unlikely)
-#   - CUSTOMER - Customer Cancel (cancelled through the interface by Bonobos)
+#   - CUSTOMER - Customer Cancel (canceled through the interface by Bonobos)
 #   - DAMAGED - Inventory Damaged
 #   - INVENTORY - Inventory Missing
 #   - REQUESTED - Requested by Customer (initiated from warehouse due to request from Bonobos)
@@ -20,7 +20,7 @@ class Documents::ShipmentOrderCancelReady
     @shipment_number = @doc.xpath("//@OrderNumber").first.text
     @status = @doc.xpath("//@Status").first.text
     @reason = @doc.xpath("//@Reason").first.text
-    @date_cancelled = @doc.xpath("//@DateCancelled").first.text
+    @date_canceled = @doc.xpath("//@DateCancelled").first.text
     @business_unit = @doc.xpath('//@BusinessUnit').first.value
     @warehouse = @doc.xpath("//@Warehouse").first.text
   end
@@ -36,7 +36,7 @@ class Documents::ShipmentOrderCancelReady
           reason: @reason,
           warehouse: @warehouse,
           business_unit: @business_unit,
-          shorted_at: @date_cancelled,
+          canceled_at: @date_canceled,
           items: full_short_items,
         }
       ]
