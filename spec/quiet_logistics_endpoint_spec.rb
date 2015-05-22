@@ -203,6 +203,9 @@ describe QuietLogisticsEndpoint do
 
           expect(json_response['summary']).to eq "Got Data for filename.xml"
 
+          expect(json_response['shipments'].size).to eq 1
+          expect(json_response['shipments'][0]['id']).to eq 'H13088556647'
+
           expect(json_response['quiet_logistics_cartons'].size).to eq 1
           expect(json_response['quiet_logistics_cartons'][0]['id']).to eq 'S11111111'
         end
