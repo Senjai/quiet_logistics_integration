@@ -55,6 +55,26 @@ module Documents
     describe '#to_h' do
       let(:result) { ShipmentOrderResult.new(xml, 'some-message-id') }
 
+      describe 'shipments' do
+        let(:shipments) { result.to_h[:shipments] }
+
+        it 'should have the expected properties' do
+          expect(shipments).to be_a Array
+          expect(shipments.size).to eq 1
+
+          shipment = shipments.first
+
+          expect(shipment).to eq(
+            id: "H13088556647",
+            tracking: "1Z1111111111111111",
+            warehouse: "DVN",
+            status: "shipped",
+            business_unit: "BONOBOS",
+            shipped_at: "2015-02-24T15:51:31.0953088Z",
+          )
+        end
+      end
+
       describe 'quiet_logistics_cartons' do
         let(:cartons) { result.to_h[:quiet_logistics_cartons] }
 

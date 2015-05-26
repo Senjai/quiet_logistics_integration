@@ -38,12 +38,25 @@ module Documents
 
     def to_h
       {
+        shipments: [shipment],
         quiet_logistics_cartons: cartons,
         quiet_logistics_partial_shorts: partial_shorts,
       }
     end
 
     private
+
+    def shipment
+      {
+        id: @shipment_number,
+        # NOTE: There may multiple tracking numbers. This is just the first.
+        tracking: @tracking_number,
+        warehouse: @warehouse,
+        status: 'shipped',
+        business_unit: @business_unit,
+        shipped_at: @date_shipped,
+      }
+    end
 
     def cartons
       cartons = @doc.xpath('ql:SOResult/ql:Carton', 'ql' => NAMESPACE)
