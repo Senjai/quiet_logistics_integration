@@ -78,7 +78,7 @@ module Documents
       contents = carton.xpath('ql:Content', 'ql' => NAMESPACE)
       contents.map do |content|
         quantity = Integer(content['Quantity'])
-        if quantity > 1
+        if is_spree_shipment? && quantity > 1
           # See the code comment on #partial_short_items
           message = "QL quantity greater than 1 detected. Short ship " +
             "detection may not work correctly."
@@ -123,6 +123,10 @@ module Documents
           ql_item_number: line['ItemNumber'],
         }
       end
+    end
+
+    def is_spree_shipment?
+      !@shipment_number.start_with?('W', 'T')
     end
   end
 end
