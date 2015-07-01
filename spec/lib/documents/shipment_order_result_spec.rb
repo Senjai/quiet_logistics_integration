@@ -206,7 +206,7 @@ module Documents
                   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                   ClientID="BONOBOS"
                   BusinessUnit="BONOBOS"
-                  OrderNumber="H13088556647"
+                  OrderNumber="#{shipment_number}"
                   DateShipped="2015-02-24T15:51:31.0953088Z"
                   FreightCost="0"
                   CartonCount="1"
@@ -231,13 +231,35 @@ module Documents
             XML
           end
 
-          it 'alerts us' do
-            expect(Rollbar).to receive(:error).with(
-              /QL quantity greater than 1/,
-              shipment: 'H13088556647',
-              carton: 'S11111111',
-            )
-            ShipmentOrderResult.new(xml, 'some-message-id').to_h
+          context 'Spree shipment' do
+            let(:shipment_number) { "H13088556647" }
+
+            it 'alerts us' do
+              expect(Rollbar).to receive(:error).with(
+                /QL quantity greater than 1/,
+                shipment: 'H13088556647',
+                carton: 'S11111111',
+              )
+              ShipmentOrderResult.new(xml, 'some-message-id').to_h
+            end
+          end
+
+          context 'non-Spree T-shipment' do
+            let(:shipment_number) { "T13088556647" }
+
+            it 'does not alert us' do
+              expect(Rollbar).to_not receive(:error)
+              ShipmentOrderResult.new(xml, 'some-message-id').to_h
+            end
+          end
+
+          context 'non-Spree W-shipment' do
+            let(:shipment_number) { "W13088556647" }
+
+            it 'does not alert us' do
+              expect(Rollbar).to_not receive(:error)
+              ShipmentOrderResult.new(xml, 'some-message-id').to_h
+            end
           end
         end
       end
