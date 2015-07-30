@@ -258,6 +258,135 @@ describe QuietLogisticsEndpoint do
     end
   end
 
+  describe "/add_shipment" do
+    let(:config) do
+      super().merge(
+        'ql_outgoing_queue' => 'some-outgoing-queue',
+        'ql_outgoing_bucket' => 'some-outgoing-bucket',
+        'client_id' => 'BONOBOS',
+        'business_unit' => 'BONOBOS',
+      )
+    end
+
+    def make_request(shipment:)
+      post '/add_shipment', post_data(shipment: shipment), auth
+    end
+
+    def post_data(shipment:)
+      {
+        'request_id' => '123',
+        'parameters' => config,
+        'shipment' => shipment,
+      }.to_json
+    end
+
+    def shipment
+      {
+        "id" => "H11111111111",
+        "order_id" => "311111111",
+        "email" => "fredsmith@example.com",
+        "cost" => 0,
+        "status" => "ready",
+        "stock_location" => "QLAYR",
+        "shipping_method" => "UPS Ground",
+        "tracking" => nil,
+        "updated_at" => "2015-03-20T11:51:13Z",
+        "shipped_at" => nil,
+        "channel" => "spree",
+        "address" => {
+          "id" => 1111111,
+          "firstname" => "Fred",
+          "lastname" => "Smith",
+          "address1" => "1234 Way",
+          "address2" => "",
+          "city" => "Somecity",
+          "zipcode" => "12345",
+          "phone" => "1111111111",
+          "state_name" => nil,
+          "alternative_phone" => nil,
+          "company" => nil,
+          "state_id" => 23,
+          "country_id" => 49,
+          "created_at" => "2015-03-20T11:50:52.700Z",
+          "updated_at" => "2015-03-20T11:50:52.700Z",
+          "user_id" => nil,
+        },
+        "store_code" => "BNBS",
+        "shipping_address" => {
+          "firstname" => "Fred",
+          "lastname" => "Smith",
+          "address1" => "1234 Way",
+          "address2" => "",
+          "zipcode" => "12345",
+          "city" => "Somecity",
+          "state" => "NY",
+          "country" => "US",
+          "phone" => "1111111111",
+        },
+        "items" => [
+          {
+            "product_id" => "15041-BK264-35",
+            "name" => "Washed Chino Shorts",
+            "quantity" => 1,
+            "price" => 68,
+            "ql_item_number" => 8888888,
+            "item_number" => 1,
+            "sku" => 8888888,
+          },
+        ],
+        "line_items" => [
+          {
+            "product_id" => "15041-BK264-35",
+            "name" => "Washed Chino Shorts",
+            "quantity" => 1,
+            "price" => 68,
+            "ql_item_number" => 8888888,
+            "item_number" => 1,
+            "sku" => 8888888,
+          },
+        ],
+        "note_value" => "XXXXX",
+        "note_type" => "RETURNLABEL",
+      }
+    end
+
+    describe 'response' do
+      around do |example|
+        Timecop.freeze { example.run }
+      end
+
+      before do
+        expect_any_instance_of(Uploader).to receive(:process).and_return("some-s3-url")
+        allow(SecureRandom).to receive(:uuid).and_return('some-uuid')
+      end
+
+      specify do
+        expect_any_instance_of(Sender).to receive(:send_message) do |event_message|
+          doc = Nokogiri::XML(event_message.to_xml)
+
+          expect(doc.children.size).to eq 1
+          event_message_element = doc.children.first
+
+          expect(event_message_element.name).to eq 'EventMessage'
+
+          expect(event_message_element.to_h).to eq(
+            "ClientId" => "BONOBOS",
+            "BusinessUnit" => "BONOBOS",
+            "DocumentName" => "BONOBOS_ShipmentOrder_H11111111111_#{Time.now.strftime('%Y%m%d_%H%M%3N')}.xml",
+            "DocumentType" => "ShipmentOrder",
+            "MessageId" => "some-uuid",
+            "Warehouse" => "DVN",
+            "MessageDate" => Time.now.utc.iso8601,
+          )
+        end
+
+        make_request(shipment: shipment)
+
+        expect(last_response.status).to eq 200
+      end
+    end
+  end
+
   describe '/add_rma' do
     let(:config) do
       super().merge(
