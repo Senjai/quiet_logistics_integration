@@ -56,13 +56,14 @@ class QuietLogisticsEndpoint < EndpointBase::Sinatra::Base
   end
 
   post '/add_shipment' do
-    begin
-      shipment = @payload['shipment']
-      message  = Api.send_document('ShipmentOrder', shipment, outgoing_bucket, outgoing_queue, @config)
-      result 200, message
-    rescue => e
-      handle_error(e)
-    end
+    result 500, 'Endpoint temporarily disabled to freeze inventory changes for sync across systems' # returning a 500 here since we want to sync inventory across systems, will put this back once that sync is done
+    # begin
+    #   shipment = @payload['shipment']
+    #   message  = Api.send_document('ShipmentOrder', shipment, outgoing_bucket, outgoing_queue, @config)
+    #   result 200, message
+    # rescue => e
+    #   handle_error(e)
+    # end
   end
 
   post '/add_purchase_order' do
@@ -86,13 +87,14 @@ class QuietLogisticsEndpoint < EndpointBase::Sinatra::Base
   end
 
   post '/add_rma' do
-    begin
-      rma = @payload['rma']
-      message  = Api.send_document('RMADocument', rma, outgoing_bucket, outgoing_queue, @config)
-      result 200, message
-    rescue => e
-      handle_error(e)
-    end
+    result 500, 'Endpoint temporarily disabled to freeze inventory changes for sync across systems' # returning a 500 here since we want to sync inventory across systems, will put this back once that sync is done
+    # begin
+    #   rma = @payload['rma']
+    #   message  = Api.send_document('RMADocument', rma, outgoing_bucket, outgoing_queue, @config)
+    #   result 200, message
+    # rescue => e
+    #   handle_error(e)
+    # end
   end
 
   private
