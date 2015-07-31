@@ -356,9 +356,8 @@ describe QuietLogisticsEndpoint do
       end
 
       before do
-        pending
-        # expect_any_instance_of(Uploader).to receive(:process).and_return("some-s3-url")
-        # allow(SecureRandom).to receive(:uuid).and_return('some-uuid')
+        expect_any_instance_of(Uploader).to receive(:process).and_return("some-s3-url")
+        allow(SecureRandom).to receive(:uuid).and_return('some-uuid')
       end
 
       specify do
@@ -486,9 +485,8 @@ describe QuietLogisticsEndpoint do
       end
 
       before do
-        pending
-        # expect_any_instance_of(Uploader).to receive(:process).and_return("some-s3-url")
-        # allow(SecureRandom).to receive(:uuid).and_return('some-uuid')
+        expect_any_instance_of(Uploader).to receive(:process).and_return("some-s3-url")
+        allow(SecureRandom).to receive(:uuid).and_return('some-uuid')
       end
 
       specify do
