@@ -18,7 +18,8 @@ module Documents
 
           xml.OrderHeader('OrderNumber' => @shipment_number,
                           'OrderType'   => @shipment['order_type'],
-                          'OrderDate'   => DateTime.now.iso8601) {
+                          'OrderDate'   => DateTime.now.iso8601,
+                          'SiteID'      => site_id) {
 
             xml.Extension shipment['order_number']
 
@@ -48,7 +49,9 @@ module Documents
         'QuantityOrdered' => item['quantity'],
         'QuantityToShip'  => item['quantity'],
         'UOM'             => 'EA',
-        'Price'           => item['price']
+        'Price'           => item['price'],
+        'AltPrice'        => item['retail_price'].to_f,
+        'AltVendorItem'   => item['whs_item_id'],
       }
     end
 
@@ -76,6 +79,10 @@ module Documents
         'PostalCode' => @shipment['shipping_address']['zipcode'],
         'Country'    => @shipment['shipping_address']['country']
       }
+    end
+
+    def site_id
+      shipment['id'].start_with?('W') ? "WHOLESALE" : ""
     end
 
     def full_name

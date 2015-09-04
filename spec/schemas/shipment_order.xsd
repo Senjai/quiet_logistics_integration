@@ -1,69 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema targetNamespace="http://schemas.quietlogistics.com/V2/ShipmentOrder.xsd"
-attributeFormDefault="unqualified"
-elementFormDefault="qualified" xmlns:p1="http://schemas.quietlogistics.com/V2/ShipmentOrder.xsd" xmlns:mstns="http://schemas.quietlogistics.com/V2/ShipmentOrder.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" >
-<xs:element name="ShipOrderDocument" nillable="false" type="p1:ShipOrderDocumentType" /> <xs:complexType name="AddressType">
-<xs:sequence>
-<xs:element name="Extension" type="xs:string" maxOccurs="1" minOccurs="0" />
-</xs:sequence>
-<xs:attribute name="Company" type="xs:string" use="optional" /> <xs:attribute name="Contact" type="xs:string" use="optional" /> <xs:attribute name="Address1" type="xs:string" use="required" /> <xs:attribute name="Address2" type="xs:string" use="optional" /> <xs:attribute name="Address3" type="xs:string" use="optional" /> <xs:attribute name="City" type="xs:string" use="required" /> <xs:attribute name="State" type="xs:string" use="required" /> <xs:attribute name="Country" type="xs:string" use="optional" /> <xs:attribute name="PostalCode" type="xs:string" use="required" /> <xs:attribute name="Phone" type="xs:string" use="optional" /> <xs:attribute name="Phone2" type="xs:string" use="optional" /> <xs:attribute name="Fax" type="xs:string" use="optional" /> <xs:attribute name="Email" type="xs:string" use="optional" />
-</xs:complexType>
-<xs:complexType name="SoDetailType">
-<xs:sequence>
-<xs:element name="Extension" type="xs:string" maxOccurs="1" minOccurs="0" />
-<xs:element name="Comments" type="xs:string" maxOccurs="1" minOccurs="0" />
-<xs:element name="Process" type="p1:ProcessType" maxOccurs="unbounded" minOccurs="0" /> <xs:element name="SpecialHandling" type="xs:string" minOccurs="0" maxOccurs="unbounded" /> <xs:element name="TaxRate" type="p1:TaxRateType" maxOccurs="unbounded" minOccurs="0" /> <xs:element name="Instructions" type="xs:string" minOccurs="0" maxOccurs="1"/>
-<xs:element name="Notes" type="p1:SONoteType" minOccurs="0" maxOccurs="unbounded"/> <xs:element name="ValueAddedService" type="p1:ValueAddedServiceType" maxOccurs="unbounded"
-minOccurs="0" />
-</xs:sequence>
-<xs:attribute name="Line" type="xs:int" use="required" />
-<xs:attribute name="ItemNumber" type="xs:string" use="required" /> <xs:attribute name="UOM" type="xs:string" use="required" /> <xs:attribute name="QuantityOrdered" type="xs:int" use="required" /> <xs:attribute name="QuantityToShip" type="xs:int" use="required" /> <xs:attribute name="Price" type="xs:decimal" use="optional" /> <xs:attribute name="SubstituteItem" type="xs:string" use="optional" /> <xs:attribute name="AltItemDescription" type="xs:string" use="optional" /> <xs:attribute name="AltItemSize" type="xs:string" use="optional" /> <xs:attribute name="AltItemColor" type="xs:string" use="optional" /> <xs:attribute name="Gift" type="xs:boolean" use="optional" /> <xs:attribute name="GiftType" type="xs:string" use="optional" /> <xs:attribute name="ItemIDCapture" type="xs:boolean" use="optional" />
-</xs:complexType>
-<xs:complexType name="ProcessType">
-<xs:sequence>
-<xs:element name="ProcessItems" type="p1:ProcessItemsType" minOccurs="0" maxOccurs="unbounded" />
-</xs:sequence>
-<xs:attribute name="ProcessId" type="xs:string" use="required" />
-<xs:attribute name="ProcessDescription" type="xs:string" use="optional" /> </xs:complexType>
-<xs:complexType name="SoHeaderType"> <xs:sequence>
-<xs:element name="Extension" type="xs:string" maxOccurs="1" minOccurs="0" />
-<xs:element name="Comments" type="xs:string" maxOccurs="1" minOccurs="0" />
-<xs:element name="ShipMode" type="p1:ShipModeType" maxOccurs="1" minOccurs="1" /> <xs:element name="TaxRate" type="p1:TaxRateType" maxOccurs="unbounded" minOccurs="0" /> <xs:element name="ShipTo" type="p1:AddressType" minOccurs="1" maxOccurs="1" /> <xs:element name="BillTo" type="p1:AddressType" minOccurs="1" maxOccurs="1" /> <xs:element name="ConsolShipTo" type="p1:AddressType" minOccurs="0" maxOccurs="1" /> <xs:element name="ReturnTo" type="p1:AddressType" minOccurs="0" maxOccurs="1" /> <xs:element name="ShipSpecialService" type="p1:ShipSpecialServiceType" minOccurs="0"
-maxOccurs="unbounded"/>
-<xs:element name="DeclaredValue" type="xs:decimal" minOccurs="0" maxOccurs="1"/> <xs:element name="PackageType" type="xs:string" minOccurs="0" maxOccurs="1"/> <xs:element name="Instructions" type="xs:string" minOccurs="0" maxOccurs="1"/> <xs:element name="Notes" type="p1:SONoteType" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-<xs:attribute name="OrderNumber" type="xs:string" use="required" /> <xs:attribute name="OrderType" type="p1:OrderType" use="required" /> <xs:attribute name="CustomerPO" type="xs:string" use="optional" /> <xs:attribute name="OrderDate" type="xs:dateTime" use="required" /> <xs:attribute name="ShipDate" type="xs:dateTime" use="optional" /> <xs:attribute name="VIPCustomer" type="xs:boolean" use="optional" /> <xs:attribute name="Warehouse" type="xs:string" use="optional" /> <xs:attribute name="StoreDelivery" type="xs:boolean" use="optional" /> <xs:attribute name="SiteID" type="xs:string" use="optional" />
-<xs:attribute name="Gift" type="xs:boolean" use="optional" /> <xs:attribute name="GiftType" type="xs:string" use="optional" /> <xs:attribute name="CustomerLanguage" type="xs:string" use="optional" />
-</xs:complexType>
-<xs:complexType name="ShipModeType">
-<xs:attribute name="Carrier" type="xs:string" />
-<xs:attribute name="ServiceLevel" type="xs:string" /> </xs:complexType>
-<xs:complexType name="ProcessItemsType">
-<xs:attribute name="ProcessNumber" type="xs:string" /> <xs:attribute name="Quantity" type="xs:int" /> <xs:attribute name="Price" type="xs:decimal" />
-</xs:complexType>
-<xs:complexType name="ShipOrderDocumentType">
-<xs:sequence>
-<xs:element name="ClientID" type="xs:string" maxOccurs="1" minOccurs="1" />
-<xs:element name="BusinessUnit" type="xs:string" maxOccurs="1" minOccurs="1" />
-<xs:element name="OrderHeader" type="p1:SoHeaderType" minOccurs="1" maxOccurs="1" /> <xs:element name="OrderDetails" type="p1:SoDetailType" minOccurs="1" maxOccurs="unbounded" /> <xs:element name="Comments" type="xs:string" minOccurs="0" maxOccurs="unbounded" /> <xs:element name="Extension" type="xs:string" maxOccurs="1" minOccurs="0" />
-</xs:sequence>
-<xs:attribute name="FillRule" type="xs:string" default="Standard" /> </xs:complexType>
-<xs:complexType name="TaxRateType">
-<xs:attribute name="Floor" type="xs:decimal" use="required" /> <xs:attribute name="Ceiling" type="xs:decimal" use="required" /> <xs:attribute name="Rate" type="xs:decimal" use="required" /> <xs:attribute name="Rule" type="xs:string" use="optional" /> <xs:attribute name="Authority" type="xs:string" use="required" />
-</xs:complexType>
-<xs:complexType name="SONoteType">
-<xs:attribute name="NoteType" type="xs:string" use="required" />
-<xs:attribute name="NoteValue" type="xs:string" use="required" /> </xs:complexType>
-<xs:complexType name="ValueAddedServiceType">
-<xs:sequence>
-</xs:sequence>
-<xs:attribute name="Service" type="xs:string" use="required" /> <xs:attribute name="ServiceType" type="xs:string" use="optional" />
-</xs:complexType>
-<xs:simpleType name="ShipSpecialServiceType">
-<xs:restriction base="xs:string"> <xs:enumeration value="ADULTSIG" /> <xs:enumeration value="DECLAREDVALUE" /> <xs:enumeration value="DELIVERYCONFIRM" /> <xs:enumeration value="HAZARDOUS" /> <xs:enumeration value="INDSIGNATURE" /> <xs:enumeration value="INSURANCE" /> <xs:enumeration value="NOSIGNATURE" /> <xs:enumeration value="PROOF" /> <xs:enumeration value="RESIDENTIAL" /> <xs:enumeration value="SATURDAY" /> <xs:enumeration value="SIGNATURE" /> <xs:enumeration value="SIGWAIVER" />
-</xs:restriction>
-</xs:simpleType>
-<xs:simpleType name="OrderType">
-<xs:restriction base="xs:string"> <xs:enumeration value="SO" /> <xs:enumeration value="FO" /> <xs:enumeration value="TO" /> <xs:enumeration value="RTV" />
-</xs:restriction> </xs:simpleType>
+    attributeFormDefault="unqualified"
+    elementFormDefault="qualified"
+    xmlns:p1="http://schemas.quietlogistics.com/V2/ShipmentOrder.xsd"
+    xmlns:mstns="http://schemas.quietlogistics.com/V2/ShipmentOrder.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" >
+  <xs:element name="ShipOrderDocument" nillable="false" type="p1:ShipOrderDocumentType" />
+  <xs:complexType name="AddressType">
+    <xs:sequence>
+      <xs:element name="Extension" type="xs:string" maxOccurs="1" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="Company" type="xs:string" use="optional" />
+    <xs:attribute name="Contact" type="xs:string" use="optional" />
+    <xs:attribute name="Address1" type="xs:string" use="required" />
+    <xs:attribute name="Address2" type="xs:string" use="optional" />
+    <xs:attribute name="Address3" type="xs:string" use="optional" />
+    <xs:attribute name="City" type="xs:string" use="required" />
+    <xs:attribute name="State" type="xs:string" use="required" />
+    <xs:attribute name="Country" type="xs:string" use="optional" />
+    <xs:attribute name="PostalCode" type="xs:string" use="required" />
+    <xs:attribute name="Phone" type="xs:string" use="optional" />
+    <xs:attribute name="Phone2" type="xs:string" use="optional" />
+    <xs:attribute name="Fax" type="xs:string" use="optional" />
+    <xs:attribute name="Email" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="SoDetailType">
+    <xs:sequence>
+      <xs:element name="Extension" type="xs:string" maxOccurs="1" minOccurs="0" />
+      <xs:element name="Comments" type="xs:string" maxOccurs="1" minOccurs="0" />
+      <xs:element name="Process" type="p1:ProcessType" maxOccurs="unbounded" minOccurs="0" />
+      <xs:element name="SpecialHandling" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="TaxRate" type="p1:TaxRateType" maxOccurs="unbounded" minOccurs="0" />
+      <xs:element name="Instructions" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="Notes" type="p1:SONoteType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="ValueAddedService" type="p1:ValueAddedServiceType" maxOccurs="unbounded" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="Line" type="xs:int" use="required" />
+    <xs:attribute name="ItemNumber" type="xs:string" use="required" />
+    <xs:attribute name="UOM" type="xs:string" use="required" />
+    <xs:attribute name="QuantityOrdered" type="xs:int" use="required" />
+    <xs:attribute name="QuantityToShip" type="xs:int" use="required" />
+    <xs:attribute name="Price" type="xs:decimal" use="optional" />
+    <xs:attribute name="SubstituteItem" type="xs:string" use="optional" />
+    <xs:attribute name="AltItemDescription" type="xs:string" use="optional" />
+    <xs:attribute name="AltItemSize" type="xs:string" use="optional" />
+    <xs:attribute name="AltItemColor" type="xs:string" use="optional" />
+    <xs:attribute name="Gift" type="xs:boolean" use="optional" />
+    <xs:attribute name="GiftType" type="xs:string" use="optional" />
+    <xs:attribute name="ItemIDCapture" type="xs:boolean" use="optional" />
+    <xs:attribute name="Returnable" type="xs:boolean" use="optional" />
+    <xs:attribute name="AltVendorItem" type="xs:string" use="optional" />
+    <xs:attribute name="AltUPC" type="xs:string" use="optional" />
+    <xs:attribute name="AltPrice" type="xs:decimal" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="ProcessType">
+    <xs:sequence>
+      <xs:element name="ProcessItems" type="p1:ProcessItemsType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="ProcessId" type="xs:string" use="required" />
+    <xs:attribute name="ProcessDescription" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="SoHeaderType">
+    <xs:sequence>
+      <xs:element name="Extension" type="xs:string" maxOccurs="1" minOccurs="0" />
+      <xs:element name="Comments" type="xs:string" maxOccurs="1" minOccurs="0" />
+      <xs:element name="ShipMode" type="p1:ShipModeType" maxOccurs="1" minOccurs="1" />
+      <xs:element name="TaxRate" type="p1:TaxRateType" maxOccurs="unbounded" minOccurs="0" />
+      <xs:element name="ShipTo" type="p1:AddressType" minOccurs="1" maxOccurs="1" />
+      <xs:element name="BillTo" type="p1:AddressType" minOccurs="0" maxOccurs="1" />
+      <xs:element name="PackSlipShipTo" type="p1:AddressType" minOccurs="0" maxOccurs="1" />
+      <xs:element name="ConsolShipTo" type="p1:AddressType" minOccurs="0" maxOccurs="1" />
+      <xs:element name="ReturnTo" type="p1:AddressType" minOccurs="0" maxOccurs="1" />
+      <xs:element name="ShipSpecialService" type="p1:ShipSpecialServiceType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="DeclaredValue" type="xs:decimal" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="PackageType" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="Instructions" type="xs:string" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="Notes" type="p1:SONoteType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="ValueAddedService" type="p1:ValueAddedServiceType" maxOccurs="unbounded" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="OrderNumber" type="xs:string" use="required" />
+    <xs:attribute name="OrderType" type="p1:OrderType" use="required" />
+    <xs:attribute name="CustomerPO" type="xs:string" use="optional" />
+    <xs:attribute name="OrderDate" type="xs:dateTime" use="required" />
+    <xs:attribute name="ShipDate" type="xs:dateTime" use="optional" />
+    <xs:attribute name="VIPCustomer" type="xs:boolean" use="optional" />
+    <xs:attribute name="Warehouse" type="xs:string" use="optional" />
+    <xs:attribute name="StoreDelivery" type="xs:boolean" use="optional" />
+    <xs:attribute name="SiteID" type="xs:string" use="optional" />
+    <xs:attribute name="ConsolidatedDelivery" type="xs:boolean" use="optional" />
+    <xs:attribute name="Gift" type="xs:boolean" use="optional" />
+    <xs:attribute name="GiftType" type="xs:string" use="optional" />
+    <xs:attribute name="CustomerLanguage" type="xs:string" use="optional" />
+    <xs:attribute name="OrderPriority" type="p1:OrderPriorityType" use="optional" />
+    <xs:attribute name="Wholesale" type="xs:boolean" use="optional" />
+    <xs:attribute name="StartDate" type="xs:dateTime" use="optional" />
+    <xs:attribute name="CancelDate" type="xs:dateTime" use="optional" />
+    <xs:attribute name="DCNumber" type="xs:string" use="optional" />
+    <xs:attribute name="StoreNumber" type="xs:string" use="optional" />
+    <xs:attribute name="StoreName" type="xs:string" use="optional" />
+    <xs:attribute name="DeptNumber" type="xs:string" use="optional" />
+    <xs:attribute name="VendorNumber" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:complexType name="ShipModeType">
+    <xs:attribute name="Carrier" type="xs:string" />
+    <xs:attribute name="ServiceLevel" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ProcessItemsType">
+    <xs:attribute name="ProcessNumber" type="xs:string" />
+    <xs:attribute name="Quantity" type="xs:int" />
+    <xs:attribute name="Price" type="xs:decimal" />
+  </xs:complexType>
+  <xs:complexType name="ShipOrderDocumentType">
+    <xs:sequence>
+      <xs:element name="ClientID" type="xs:string" maxOccurs="1" minOccurs="1" />
+      <xs:element name="BusinessUnit" type="xs:string" maxOccurs="1" minOccurs="1" />
+      <xs:element name="OrderHeader" type="p1:SoHeaderType" minOccurs="1" maxOccurs="1" />
+      <xs:element name="OrderDetails" type="p1:SoDetailType" minOccurs="1" maxOccurs="unbounded" />
+      <xs:element name="Comments" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="Extension" type="xs:string" maxOccurs="1" minOccurs="0" />
+    </xs:sequence>
+    <xs:attribute name="FillRule" type="xs:string" default="Standard" />
+  </xs:complexType>
+  <xs:complexType name="TaxRateType">
+    <xs:attribute name="Floor" type="xs:decimal" use="required" />
+    <xs:attribute name="Ceiling" type="xs:decimal" use="required" />
+    <xs:attribute name="Rate" type="xs:decimal" use="required" />
+    <xs:attribute name="Rule" type="xs:string" use="optional" />
+    <xs:attribute name="Authority" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="SONoteType">
+    <xs:attribute name="NoteType" type="xs:string" use="required" />
+    <xs:attribute name="NoteValue" type="xs:string" use="required" />
+  </xs:complexType>
+  <xs:complexType name="ValueAddedServiceType">
+    <xs:sequence>
+    </xs:sequence>
+    <xs:attribute name="Service" type="xs:string" use="required" />
+    <xs:attribute name="ServiceType" type="xs:string" use="optional" />
+  </xs:complexType>
+  <xs:simpleType name="ShipSpecialServiceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ADULTSIG" />
+      <xs:enumeration value="DECLAREDVALUE" />
+      <xs:enumeration value="DELIVERYCONFIRM" />
+      <xs:enumeration value="HAZARDOUS" />
+      <xs:enumeration value="INDSIGNATURE" />
+      <xs:enumeration value="INSURANCE" />
+      <xs:enumeration value="NOSIGNATURE" />
+      <xs:enumeration value="PROOF" />
+      <xs:enumeration value="RESIDENTIAL" />
+      <xs:enumeration value="SATURDAY" />
+      <xs:enumeration value="SIGNATURE" />
+      <xs:enumeration value="SIGWAIVER" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="OrderType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SO" />
+      <xs:enumeration value="FO" />
+      <xs:enumeration value="TO" />
+      <xs:enumeration value="RTV" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="OrderPriorityType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="STANDARD" />
+      <xs:enumeration value="HIGH" />
+      <xs:enumeration value="LOW" />
+    </xs:restriction>
+  </xs:simpleType>
 </xs:schema>
